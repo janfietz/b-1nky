@@ -3,7 +3,7 @@
 	url = https://github.com/lilvinz/flashtool.git
 [submodule "submodules/qos"]
 	path = submodules/qos
-	url = https://github.com/lilvinz/qos.git
+	url = git@github.com:lilvinz/qos.git
 [submodule "submodules/chibios"]
 	path = submodules/chibios
 	url = https://github.com/lilvinz/chibios.git
