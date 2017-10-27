@@ -51,36 +51,23 @@ EXTRAINCDIRS += ../common
 # -U options for C here.
 ifdef NDEBUG
     CFLAGS += -DNDEBUG
-    CFLAGS += -DCORTEX_USE_FPU=TRUE
     CFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    CFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
 CFLAGS += -DCORTEX_VTOR_INIT=$$(($(FW_ORIGIN) - $(EF_ORIGIN)))
-CFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-CFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
 
 # Place project-specific -D (define) and/or
 # -U options for CPP here.
 ifdef NDEBUG
     CPPFLAGS += -DNDEBUG
-    CPPFLAGS += -DCORTEX_USE_FPU=TRUE
     CPPFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    CPPFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
 CPPFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
-CPPFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-CPPFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
 ifdef NDEBUG
     ASFLAGS += -DNDEBUG
-    ASFLAGS += -DCORTEX_USE_FPU=TRUE
     ASFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    ASFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
 ASFLAGS += -D__ASSEMBLY__
 
@@ -91,7 +78,7 @@ EXTRA_LIBS += c
 EXTRA_LIBS += m
 
 # Compiler flags
-CFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CFLAGS += -O2 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wimplicit -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CFLAGS += -Wno-unused-but-set-variable -Wunsuffixed-float-constants -Wstrict-prototypes
@@ -99,14 +86,11 @@ CFLAGS += -ffunction-sections -fdata-sections -fno-common
 CFLAGS += -fno-builtin-printf -nodefaultlibs
 CFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
 CFLAGS += -std=gnu99
-CFLAGS += -mcpu=cortex-m4
-ifdef NDEBUG
-    CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
+CFLAGS += -mcpu=cortex-m0
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
-CPPFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CPPFLAGS += -O2 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CPPFLAGS += -Wno-unused-but-set-variable
@@ -114,17 +98,11 @@ CPPFLAGS += -ffunction-sections -fdata-sections -fno-common
 CPPFLAGS += -fno-builtin-printf -nodefaultlibs -fno-rtti
 CPPFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
 CPPFLAGS += -std=c++11
-CPPFLAGS += -mcpu=cortex-m4
-ifdef NDEBUG
-    CPPFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
+CPPFLAGS += -mcpu=cortex-m0
 CPPFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Assembler flags
-ASFLAGS += -mcpu=cortex-m4
-ifdef NDEBUG
-    ASFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
+ASFLAGS += -mcpu=cortex-m0
 ASFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 ASFLAGS += -x assembler-with-cpp
 

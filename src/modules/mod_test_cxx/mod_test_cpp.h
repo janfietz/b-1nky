@@ -45,7 +45,7 @@
 /* External declarations                                                     */
 /*===========================================================================*/
 
-class ModTestCpp : public qos::ThreadedModule<4098>
+class ModTestCpp : public qos::ThreadedModule<32>
 {
 public:
     ModTestCpp();
@@ -65,7 +65,7 @@ protected:
     virtual void ThreadMain();
 
 private:
-    typedef qos::ThreadedModule<4098> Super;
+    typedef qos::ThreadedModule<32> Super;
 
     static ModTestCpp modInstance;
 };
