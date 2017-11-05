@@ -18,7 +18,7 @@
 enum watchdog_source
 {
     WATCHDOG_MOD_TEST,
-    WATCHDOG_MOD_TEST_CPP,
+    WATCHDOG_MOD_EFFECTS,
 };
 
 #ifdef __cplusplus
