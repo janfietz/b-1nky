@@ -16,3 +16,9 @@
 [submodule "submodules/minini"]
 	path = submodules/minini
 	url = https://github.com/lilvinz/minini.git
+[submodule "submodules/ws281x"]
+	path = submodules/ws281x
+	url = https://github.com/janfietz/ws281x.git
+[submodule "submodules/tmb_effects"]
+	path = submodules/tmb_effects
+	url = https://github.com/janfietz/tmb_effects.git
