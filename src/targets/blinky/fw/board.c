@@ -63,6 +63,10 @@ void boardInit(void)
      */
     qhalInit();
 
+
+  /* Clear TIM1 remapping bit to enable DMA request.*/
+  SYSCFG->CFGR1 &= ~SYSCFG_CFGR1_TIM1_DMA_RMP;
+
     /**
      * call *ObjectInit() for all device instances which are created in here.
      */
@@ -95,6 +99,11 @@ void boardInit(void)
     nvmmemoryObjectInit(&nvm_memory_bkpsram);
 #endif /* STM32_BKPRAM_ENABLE */
 #endif /* HAL_USE_NVM_MEMORY */
+
+#if HAL_USE_WS281X
+    ws281xObjectInit(&ws281x);
+#endif /* HAL_USE_WS281X */
+
 }
 
 /**
@@ -112,6 +121,10 @@ void boardStart(void)
     ledStart(&led_green, &led_green_cfg);
     ledStart(&led_red, &led_red_cfg);
 #endif /* HAL_USE_LED */
+
+#if HAL_USE_WS281X
+    ws281xStart(&ws281x, &ws281x_cfg);
+#endif /* HAL_USE_WS281X */
 
     /* Internal flash */
 #if HAL_USE_FLASH
@@ -171,6 +184,10 @@ void boardStop(void)
 #endif /* HAL_USE_NVM_PARTITION */
     flashStop(&FLASHD);
 #endif /* HAL_USE_FLASH */
+
+#if HAL_USE_WS281X
+    ws281xStop(&ws281x);
+#endif /* HAL_USE_WS281X */
 
     /* Stop status LED driver */
 #if HAL_USE_LED

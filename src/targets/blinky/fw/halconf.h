@@ -109,7 +109,7 @@
  * @brief   Enables the PWM subsystem.
  */
 #if !defined(HAL_USE_PWM) || defined(__DOXYGEN__)
-#define HAL_USE_PWM                 FALSE
+#define HAL_USE_PWM                 TRUE
 #endif
 
 /**
@@ -166,6 +166,10 @@
  */
 #if !defined(HAL_USE_WDG) || defined(__DOXYGEN__)
 #define HAL_USE_WDG                 FALSE
+#endif
+
+#if !defined(HAL_USE_WS281X) || defined(__DOXYGEN__)
+#define HAL_USE_WS281X                 TRUE
 #endif
 
 /*===========================================================================*/

@@ -17,6 +17,8 @@
 
 #include "qhal.h"
 
+#include "ws281x.h"
+
 /*
  * @brief   This file is used to expose drivers to the application.
  *          It should only contain the highest required level of drivers.
@@ -28,6 +30,10 @@
 extern LedDriver led_green;
 extern LedDriver led_red;
 #endif /* HAL_USE_LED */
+
+#if HAL_USE_WS281X
+extern ws281xDriver ws281x;
+#endif /* HAL_USE_WS281X */
 
 /* Internal flash */
 #if HAL_USE_FLASH && HAL_USE_NVM_PARTITION

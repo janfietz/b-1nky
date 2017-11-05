@@ -20,6 +20,12 @@ include $(ROOT_DIR)/submodules/chibios/os/various/cpp_wrappers/chcpp.mk
 include $(ROOT_DIR)/submodules/format/library.mk
 CFLAGS += -DFORMAT_INCLUDE_FLOAT
 
+# WS281X
+include $(ROOT_DIR)/submodules/ws281x/library.mk
+
+# EFFECTS
+include $(ROOT_DIR)/submodules/tmb_effects/library.mk
+
 # List modules to include in this build here
 MODULES += $(notdir $(wildcard $(ROOT_DIR)/src/modules/*))
 

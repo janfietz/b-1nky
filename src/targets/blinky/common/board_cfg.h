@@ -172,4 +172,40 @@ static const RTCWakeup RTCWakeup_cfg =
 };
 #endif /* HAL_USE_RTC */
 
+#if HAL_USE_WS281X
+ws281xDriver ws281x;
+static struct ws281xLEDSetting ledSettings[] =
+{
+        {WS281X_GRB},
+        {WS281X_GRB},
+        {WS281X_GRB},
+        {WS281X_GRB},
+        {WS281X_GRB},
+};
+static const ws281xConfig ws281x_cfg =
+{
+    5,
+    ledSettings,
+    {
+        12000000,
+        WS2811_BIT_PWM_WIDTH,
+        NULL,
+        {
+            { PWM_OUTPUT_DISABLED, NULL },
+            { PWM_OUTPUT_ACTIVE_HIGH, NULL },
+            { PWM_OUTPUT_DISABLED, NULL },
+            { PWM_OUTPUT_DISABLED, NULL }
+        },
+        0,
+        TIM_DIER_UDE | TIM_DIER_CC2DE,
+    },
+    &PWMD1,
+    1,
+    WS2811_ZERO_PWM_WIDTH,
+    WS2811_ONE_PWM_WIDTH,
+    STM32_DMA1_STREAM3,
+    2,
+};
+#endif /* HAL_USE_WS281X */
+
 #endif /* BOARD_CFG_H_ */

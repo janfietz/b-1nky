@@ -301,7 +301,7 @@
                                      PIN_MODE_ALTERNATE(GPIOA_ACCEL_MISO) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_ACCEL_MOSI) |        \
                                      PIN_MODE_INPUT(GPIOA_PIN8) |           \
-                                     PIN_MODE_INPUT(GPIOA_LED_DATA) |        \
+                                     PIN_MODE_ALTERNATE(GPIOA_LED_DATA) |        \
                                      PIN_MODE_OUTPUT(GPIOA_LED1) |  \
                                      PIN_MODE_OUTPUT(GPIOA_LED2) |  \
                                      PIN_MODE_INPUT(GPIOA_PIN12) |  \
@@ -381,7 +381,7 @@
                                      PIN_AFIO_AF(GPIOA_ACCEL_MISO, 5U) |           \
                                      PIN_AFIO_AF(GPIOA_ACCEL_MOSI, 5U))
 #define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_PIN8, 0U) |          \
-                                     PIN_AFIO_AF(GPIOA_LED_DATA, 0U) |       \
+                                     PIN_AFIO_AF(GPIOA_LED_DATA, 2U) |       \
                                      PIN_AFIO_AF(GPIOA_LED1, 0U) |    \
                                      PIN_AFIO_AF(GPIOA_LED2, 0U) |    \
                                      PIN_AFIO_AF(GPIOA_PIN12, 0U) |    \
