@@ -188,7 +188,7 @@ static const ws281xConfig ws281x_cfg =
     ledSettings,
     {
         12000000,
-        WS2811_BIT_PWM_WIDTH,
+        WS281X_800KHZ_BIT_PWM_WIDTH,
         NULL,
         {
             { PWM_OUTPUT_DISABLED, NULL },
@@ -201,8 +201,8 @@ static const ws281xConfig ws281x_cfg =
     },
     &PWMD1,
     1,
-    WS2811_ZERO_PWM_WIDTH,
-    WS2811_ONE_PWM_WIDTH,
+    WS281X_800KHZ_ZERO_PWM_WIDTH,
+    WS281X_800KHZ_ONE_PWM_WIDTH,
     STM32_DMA1_STREAM3,
     2,
 };
