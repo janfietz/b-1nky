@@ -22,3 +22,6 @@
 [submodule "submodules/tmb_effects"]
 	path = submodules/tmb_effects
 	url = https://github.com/janfietz/tmb_effects.git
+[submodule "submodules/lis3dh"]
+	path = submodules/lis3dh
+	url = https://github.com/janfietz/lis3dh.git
