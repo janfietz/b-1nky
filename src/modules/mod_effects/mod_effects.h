@@ -17,6 +17,8 @@
 #include "display.h"
 
 #include "effect_randompixels.h"
+#include "effect_wandering.h"
+#include "effect_simplecolor.h"
 
 
 #if MOD_EFFECTS
@@ -67,7 +69,10 @@ protected:
     virtual tprio_t GetThreadPrio() const {return MOD_EFFECTS_THREADPRIO;}
 
 private:
-    void DrawEffects();
+    void DrawEffects(systime_t current);
+    static void TimerCallback(void* arg);
+
+    bool switchEffect = false;
 
     Color displayPixel[LEDCOUNT];
     DisplayBuffer display =
@@ -79,7 +84,7 @@ private:
 
     /*Effects*/
     EffectRandomPixelsCfg effRandomCfg = {
-            .spawninterval = MS2ST(1000),
+            .spawninterval = MS2ST(200),
             .color = {0xFF, 0xFF, 0xFF},
             .randomRed = true,
             .randomGreen = true,
@@ -94,12 +99,48 @@ private:
 
     Effect effRandomPixel =
     {
-            .effectcfg = &effRandomCfg,
-            .effectdata = &effRandomData,
-            .update = &EffectRandomPixelsUpdate,
-            .reset = &EffectRandomPixelsReset,
-            .p_next = NULL,
+        .effectcfg = &effRandomCfg,
+        .effectdata = &effRandomData,
+        .update = &EffectRandomPixelsUpdate,
+        .reset = &EffectRandomPixelsReset,
+        .p_next = NULL,
     };
+
+    EffectSimpleColorCfg effColorCfg = {
+        .color = {0x00, 0x00, 0xFF},
+        .fillbuffer = false,
+    };
+    EffectSimpleColorData effColorData;
+    Effect effColor = {
+        .effectcfg = &effColorCfg,
+        .effectdata = &effColorData,
+        .update = &EffectSimpleUpdate,
+        .reset = &EffectSimpleReset,
+        .p_next = NULL,
+    };
+
+    EffectWanderingCfg effWanderingCfg = {
+        .speed = 100,
+        .ledbegin = 0,
+        .ledend = LEDCOUNT - 1,
+        .dir = 0,
+        .trailLength = 2,
+        .turn = false,
+    };
+
+    EffectWanderingData effWanderingData;
+    Effect effWandering =
+    {
+            .effectcfg = &effWanderingCfg,
+            .effectdata = &effWanderingData,
+            .update = &EffectWanderingUpdate,
+            .reset = &EffectWanderingReset,
+            .p_next = &effColor,
+    };
+
+    Effect* effCurrent = &effRandomPixel;
+
+    virtual_timer_t effTimer;
 };
 
 typedef qos::Singleton<ModuleEffects> ModuleEffectsSingelton;

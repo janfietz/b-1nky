@@ -45,41 +45,67 @@ void ModuleEffects::Init()
     watchdog_register(WATCHDOG_MOD_EFFECTS);
 }
 
-void ModuleEffects::Start()
-{
+void ModuleEffects::Start() {
     BaseClass::Start();
+
+    // start timer
+    chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+        reinterpret_cast<void*>(this));
 }
 
-void ModuleEffects::Shutdown()
-{
+void ModuleEffects::Shutdown() {
     BaseClass::Shutdown();
 }
 
-void ModuleEffects::ThreadMain()
-{
+void ModuleEffects::ThreadMain() {
     chRegSetThreadName("effects");
-
-    while (!chThdShouldTerminateX())
-    {
+    uint8_t effectId = 0;
+    while (!chThdShouldTerminateX()) {
         watchdog_reload(WATCHDOG_MOD_EFFECTS);
+        systime_t current = chibios_rt::System::getTime();
+        if (switchEffect == true) {
+            switchEffect = false;
 
-        DrawEffects();
+            ++effectId;
+            if (effectId > 1) {
+                effectId = 0;
+            }
+
+            switch (effectId) {
+                case 0:
+                {
+                    effCurrent = &effRandomPixel;
+                }break;
+                case 1:
+                {
+                    effCurrent = &effWandering;
+                    ColorRandom(&effColorCfg.color);
+                    effWanderingCfg.dir = 1 - effWanderingCfg.dir;
+                    effWanderingCfg.turn = !effWanderingCfg.turn;
+                }
+                break;
+            }
+
+            EffectReset(effCurrent, 0, 0, current);
+
+            // start timer
+            chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+                reinterpret_cast<void*>(this));
+        }
+
+        DrawEffects(current);
         chibios_rt::BaseThread::sleep(MS2ST(10));
     }
 }
 
-void ModuleEffects::DrawEffects()
-{
+void ModuleEffects::DrawEffects(systime_t current) {
     int i;
-    systime_t current = chVTGetSystemTime();
-    
     memset(display.pixels, 0, sizeof(struct Color) * LEDCOUNT);
 
-    EffectUpdate(&effRandomPixel, 0, 0, current, &display);
+    EffectUpdate(effCurrent, 0, 0, current, &display);
 
 #if HAL_USE_WS281X
-    for (i = 0; i < LEDCOUNT; i++)
-    {
+    for (i = 0; i < LEDCOUNT; i++) {
         const Color* color = &display.pixels[i];
         ws281xSetColor(&ws281x, i, color->R, color->G, color->B);
     }
@@ -88,7 +114,12 @@ void ModuleEffects::DrawEffects()
 #endif /* HAL_USE_WS281X */
 }
 
+void ModuleEffects::TimerCallback(void* arg) {
+    auto mod = reinterpret_cast<ModuleEffects*>(arg);
+    mod->switchEffect = true;
 }
+
+}  // namespace blinky
 
 MODULE_INITCALL(6, qos::ModuleInit<blinky::ModuleEffectsSingelton>::Init,
         qos::ModuleInit<blinky::ModuleEffectsSingelton>::Start,
