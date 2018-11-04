@@ -68,7 +68,7 @@ void ModTestCpp::ThreadMain()
 
         ledToggle(LED_STATUS);
 
-        chThdSleepPeriod(&lastSysTime, OSAL_MS2ST(250));
+        chThdSleepPeriod(&lastSysTime, TIME_MS2I(250));
     }
 }
 
