@@ -81,8 +81,8 @@ static const WDGConfig WDGD1_cfg =
 LedDriver led_green;
 static const LedConfig led_green_cfg =
 {
-    .ledport = GPIOA,
-    .ledpad = GPIOA_LED1,
+    .ledport = GPIOB,
+    .ledpad = GPIOB_LED_HEARTBEAT,
     .drive = LED_ACTIVE_HIGH,
 };
 

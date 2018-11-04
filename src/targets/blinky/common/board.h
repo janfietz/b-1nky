@@ -79,7 +79,7 @@
 #define GPIOB_PIN5                  5U
 #define GPIOB_SCL                   6U
 #define GPIOB_PIN7                  7U
-#define GPIOB_PIN8                  8U
+#define GPIOB_LED_HEARTBEAT         8U
 #define GPIOB_SDA                   9U
 #define GPIOB_CLK_IN                10U
 #define GPIOB_PIN11                 11U
@@ -333,7 +333,7 @@
                                      PIN_OSPEED_MEDIUM(GPIOA_ACCEL_MISO) |         \
                                      PIN_OSPEED_MEDIUM(GPIOA_ACCEL_MOSI) |         \
                                      PIN_OSPEED_HIGH(GPIOA_PIN8) |          \
-                                     PIN_OSPEED_HIGH(GPIOA_LED_DATA) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOA_LED_DATA) |       \
                                      PIN_OSPEED_HIGH(GPIOA_LED1) |     \
                                      PIN_OSPEED_HIGH(GPIOA_LED2) |     \
                                      PIN_OSPEED_HIGH(GPIOA_PIN12) |     \
@@ -349,7 +349,7 @@
                                      PIN_PUPDR_FLOATING(GPIOA_ACCEL_MISO) |        \
                                      PIN_PUPDR_FLOATING(GPIOA_ACCEL_MOSI) |        \
                                      PIN_PUPDR_PULLUP(GPIOA_PIN8) |         \
-                                     PIN_PUPDR_FLOATING(GPIOA_LED_DATA) |    \
+                                     PIN_PUPDR_PULLUP(GPIOA_LED_DATA) |    \
                                      PIN_PUPDR_FLOATING(GPIOA_LED1) |  \
                                      PIN_PUPDR_FLOATING(GPIOA_LED2) |  \
                                      PIN_PUPDR_FLOATING(GPIOA_PIN12) |  \
@@ -417,7 +417,7 @@
                                      PIN_MODE_INPUT(GPIOB_PIN5) |           \
                                      PIN_MODE_ALTERNATE(GPIOB_SCL) |        \
                                      PIN_MODE_INPUT(GPIOB_PIN7) |           \
-                                     PIN_MODE_INPUT(GPIOB_PIN8) |           \
+                                     PIN_MODE_OUTPUT(GPIOB_LED_HEARTBEAT) |           \
                                      PIN_MODE_ALTERNATE(GPIOB_SDA) |        \
                                      PIN_MODE_INPUT(GPIOB_CLK_IN) |         \
                                      PIN_MODE_INPUT(GPIOB_PIN11) |          \
@@ -433,7 +433,7 @@
                                      PIN_OTYPE_PUSHPULL(GPIOB_PIN5) |       \
                                      PIN_OTYPE_OPENDRAIN(GPIOB_SCL) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOB_PIN7) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_PIN8) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOB_LED_HEARTBEAT) |       \
                                      PIN_OTYPE_OPENDRAIN(GPIOB_SDA) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOB_CLK_IN) |     \
                                      PIN_OTYPE_PUSHPULL(GPIOB_PIN11) |      \
@@ -449,7 +449,7 @@
                                      PIN_OSPEED_HIGH(GPIOB_PIN5) |          \
                                      PIN_OSPEED_HIGH(GPIOB_SCL) |           \
                                      PIN_OSPEED_HIGH(GPIOB_PIN7) |          \
-                                     PIN_OSPEED_HIGH(GPIOB_PIN8) |          \
+                                     PIN_OSPEED_MEDIUM(GPIOB_LED_HEARTBEAT) |          \
                                      PIN_OSPEED_HIGH(GPIOB_SDA) |           \
                                      PIN_OSPEED_HIGH(GPIOB_CLK_IN) |        \
                                      PIN_OSPEED_HIGH(GPIOB_PIN11) |         \
@@ -465,7 +465,7 @@
                                      PIN_PUPDR_PULLUP(GPIOB_PIN5) |         \
                                      PIN_PUPDR_FLOATING(GPIOB_SCL) |        \
                                      PIN_PUPDR_PULLUP(GPIOB_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOB_PIN8) |         \
+                                     PIN_PUPDR_PULLUP(GPIOB_LED_HEARTBEAT) |         \
                                      PIN_PUPDR_FLOATING(GPIOB_SDA) |        \
                                      PIN_PUPDR_PULLUP(GPIOB_CLK_IN) |       \
                                      PIN_PUPDR_PULLUP(GPIOB_PIN11) |        \
@@ -481,7 +481,7 @@
                                      PIN_ODR_HIGH(GPIOB_PIN5) |             \
                                      PIN_ODR_HIGH(GPIOB_SCL) |              \
                                      PIN_ODR_HIGH(GPIOB_PIN7) |             \
-                                     PIN_ODR_HIGH(GPIOB_PIN8) |             \
+                                     PIN_ODR_HIGH(GPIOB_LED_HEARTBEAT) |             \
                                      PIN_ODR_HIGH(GPIOB_SDA) |              \
                                      PIN_ODR_HIGH(GPIOB_CLK_IN) |           \
                                      PIN_ODR_HIGH(GPIOB_PIN11) |            \
@@ -497,7 +497,7 @@
                                      PIN_AFIO_AF(GPIOB_PIN5, 0U) |          \
                                      PIN_AFIO_AF(GPIOB_SCL, 4U) |           \
                                      PIN_AFIO_AF(GPIOB_PIN7, 0U))
-#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_PIN8, 0U) |          \
+#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_LED_HEARTBEAT, 0U) |          \
                                      PIN_AFIO_AF(GPIOB_SDA, 4U) |           \
                                      PIN_AFIO_AF(GPIOB_CLK_IN, 0U) |        \
                                      PIN_AFIO_AF(GPIOB_PIN11, 0U) |         \
