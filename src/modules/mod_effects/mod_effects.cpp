@@ -49,7 +49,7 @@ void ModuleEffects::Start() {
     BaseClass::Start();
 
     // start timer
-    chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+    chVTSet(&effTimer, TIME_MS2I(30), ModuleEffects::TimerCallback,
         reinterpret_cast<void*>(this));
 }
 
@@ -89,12 +89,12 @@ void ModuleEffects::ThreadMain() {
             EffectReset(effCurrent, 0, 0, current);
 
             // start timer
-            chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+            chVTSet(&effTimer, TIME_MS2I(30), ModuleEffects::TimerCallback,
                 reinterpret_cast<void*>(this));
         }
 
         DrawEffects(current);
-        chibios_rt::BaseThread::sleep(MS2ST(10));
+        chibios_rt::BaseThread::sleep(TIME_MS2I(10));
     }
 }
 
