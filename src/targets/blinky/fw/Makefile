@@ -14,7 +14,7 @@ include $(ROOT_DIR)/submodules/qos/various/cpp_wrappers/qoscpp.mk
 # Chibios
 include $(ROOT_DIR)/submodules/chibios/os/hal/osal/rt/osal.mk
 include $(ROOT_DIR)/submodules/chibios/os/rt/rt.mk
-include $(ROOT_DIR)/submodules/chibios/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v6m.mk
+include $(ROOT_DIR)/submodules/chibios/os/common/ports/ARMCMx/compilers/GCC/mk/port_v6m.mk
 include $(ROOT_DIR)/submodules/chibios/os/various/cpp_wrappers/chcpp.mk
 # Format
 include $(ROOT_DIR)/submodules/format/library.mk
