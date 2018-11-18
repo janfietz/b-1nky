@@ -10,6 +10,9 @@
 #define _MOD_EFFECTS_H_
 
 #include "target_cfg.h"
+
+#if MOD_EFFECTS
+
 #include "threadedmodule.h"
 #include "singleton.h"
 
@@ -21,7 +24,6 @@
 #include "effect_simplecolor.h"
 
 
-#if MOD_EFFECTS
 
 /*===========================================================================*/
 /* Module pre-compile time settings.                                         */
