@@ -50,6 +50,7 @@
  */
 void __early_init(void)
 {
+    stm32_gpio_init();
     stm32_clock_init();
 }
 
@@ -95,6 +96,10 @@ void boardInit(void)
     nvmmemoryObjectInit(&nvm_memory_bkpsram);
 #endif /* STM32_BKPRAM_ENABLE */
 #endif /* HAL_USE_NVM_MEMORY */
+
+#if HAL_USE_WS281X
+    ws281xObjectInit(&ws281x);
+#endif /* HAL_USE_WS281X */
 }
 
 /**
@@ -112,6 +117,10 @@ void boardStart(void)
     ledStart(&led_green, &led_green_cfg);
     ledStart(&led_red, &led_red_cfg);
 #endif /* HAL_USE_LED */
+
+#if HAL_USE_WS281X
+    ws281xStart(&ws281x, &ws281x_cfg);
+#endif /* HAL_USE_WS281X */
 
     /* Internal flash */
 #if HAL_USE_FLASH
@@ -171,6 +180,10 @@ void boardStop(void)
 #endif /* HAL_USE_NVM_PARTITION */
     flashStop(&FLASHD);
 #endif /* HAL_USE_FLASH */
+
+#if HAL_USE_WS281X
+    ws281xStop(&ws281x);
+#endif /* HAL_USE_WS281X */
 
     /* Stop status LED driver */
 #if HAL_USE_LED
