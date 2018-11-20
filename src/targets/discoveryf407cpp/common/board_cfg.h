@@ -303,18 +303,18 @@ static const ws281xConfig ws281x_cfg =
         NULL,
         {
             { PWM_OUTPUT_DISABLED, NULL },
-            { PWM_OUTPUT_ACTIVE_HIGH, NULL },
             { PWM_OUTPUT_DISABLED, NULL },
+            { PWM_OUTPUT_ACTIVE_HIGH, NULL },
             { PWM_OUTPUT_DISABLED, NULL }
         },
         0,
-        TIM_DIER_UDE | TIM_DIER_CC2DE,
+        TIM_DIER_UDE | TIM_DIER_CC3DE,
     },
     &PWMD4,
-    1,
+    2,
     WS281X_800KHZ_ZERO_PWM_WIDTH,
     WS281X_800KHZ_ONE_PWM_WIDTH,
-    STM32_DMA1_STREAM3,
+    STM32_DMA1_STREAM7,
     2,
 };
 #endif /* HAL_USE_WS281X */
