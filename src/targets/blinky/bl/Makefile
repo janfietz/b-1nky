@@ -6,7 +6,7 @@ include $(ROOT_DIR)/make/firmware-defs.mk
 TARGET := $(BUILD_PREFIX)_$(BOARD_NAME)
 
 # Common Firmware
-include $(ROOT_DIR)/src/common/fw/library.mk
+include $(ROOT_DIR)/src/common/bl/library.mk
 # QOS
 include $(ROOT_DIR)/submodules/qos/hal/ports/STM32/STM32F0xx/library.mk
 include $(ROOT_DIR)/submodules/qos/common/ports/ARMCMx/compilers/GCC/library.mk
@@ -53,7 +53,7 @@ ASRC +=
 EXTRAINCDIRS += .
 EXTRAINCDIRS += ../common
 
-# Place project-specific -D (define) and/or 
+# Place project-specific -D (define) and/or
 # -U options for C here.
 ifdef NDEBUG
     CFLAGS += -DNDEBUG
@@ -62,22 +62,15 @@ ifdef NDEBUG
 else
     CFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
-CFLAGS += -DCORTEX_VTOR_INIT=$$(($(FW_ORIGIN) - $(EF_ORIGIN)))
-CFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-CFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
+CFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
 
 # Place project-specific -D (define) and/or
 # -U options for CPP here.
 ifdef NDEBUG
     CPPFLAGS += -DNDEBUG
-    CPPFLAGS += -DCORTEX_USE_FPU=TRUE
     CPPFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    CPPFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
-CPPFLAGS += -DCORTEX_VTOR_INIT=$$(($(FW_ORIGIN) - $(EF_ORIGIN)))
-CPPFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-CPPFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
+CPPFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
@@ -112,7 +105,7 @@ endif
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
-CPPFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CPPFLAGS += -O2 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CPPFLAGS += -Wno-unused-but-set-variable
@@ -158,6 +151,9 @@ ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 # Define all object files.
 ALLOBJ = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
 
+# Define all depedency-files (used for make clean).
+DEPFILES = $(addprefix $(OUTDIR)/dep/, $(addsuffix .o.d, $(ALLSRCBASE)))
+
 # Default target.
 .PHONY: all
 all: elf bin lss sym
@@ -167,9 +163,6 @@ elf: $(OUTDIR)/$(TARGET).elf
 
 .PHONY: bin
 bin: $(OUTDIR)/$(TARGET).bin
-
-.PHONY: enc
-enc: $(OUTDIR)/$(TARGET).enc
 
 .PHONY: lss
 lss: $(OUTDIR)/$(TARGET).lss
@@ -190,7 +183,7 @@ $(foreach src, $(CPPSRC), $(eval $(call COMPILE_CPP_THUMB_TEMPLATE, $(src))))
 $(eval $(call LINK_CPP_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
 
 # Add jtag targets (program and wipe)
-$(eval $(call JTAG_TEMPLATE, $(OUTDIR)/$(TARGET).bin, $(FW_ORIGIN), $(FW_SIZE), $(OPENOCD_JTAG_CONFIG), $(OPENOCD_TRANSPORT), $(OPENOCD_CONFIG)))
+$(eval $(call JTAG_TEMPLATE, $(OUTDIR)/$(TARGET).bin, $(BL_ORIGIN),$(BL_SIZE), $(OPENOCD_JTAG_CONFIG), $(OPENOCD_TRANSPORT), $(OPENOCD_CONFIG)))
 
 # Include the dependency files.
 -include $(wildcard $(OUTDIR)/*.d)

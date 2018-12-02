@@ -1,5 +1,5 @@
 /*
-    ChibiOS - Copyright (C) 2006..2017 Giovanni Di Sirio
+    ChibiOS - Copyright (C) 2006..2018 Giovanni Di Sirio
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -90,6 +90,13 @@
 #endif
 
 /**
+ * @brief   Enables the I2S subsystem.
+ */
+#if !defined(HAL_USE_I2S) || defined(__DOXYGEN__)
+#define HAL_USE_I2S                         FALSE
+#endif
+
+/**
  * @brief   Enables the ICU subsystem.
  */
 #if !defined(HAL_USE_ICU) || defined(__DOXYGEN__)
@@ -114,21 +121,14 @@
  * @brief   Enables the PWM subsystem.
  */
 #if !defined(HAL_USE_PWM) || defined(__DOXYGEN__)
-#define HAL_USE_PWM                         TRUE
-#endif
-
-/**
- * @brief   Enables the QSPI subsystem.
- */
-#if !defined(HAL_USE_QSPI) || defined(__DOXYGEN__)
-#define HAL_USE_QSPI                        FALSE
+#define HAL_USE_PWM                         FALSE
 #endif
 
 /**
  * @brief   Enables the RTC subsystem.
  */
 #if !defined(HAL_USE_RTC) || defined(__DOXYGEN__)
-#define HAL_USE_RTC                         TRUE
+#define HAL_USE_RTC                         FALSE
 #endif
 
 /**
@@ -142,7 +142,7 @@
  * @brief   Enables the SERIAL subsystem.
  */
 #if !defined(HAL_USE_SERIAL) || defined(__DOXYGEN__)
-#define HAL_USE_SERIAL                      FALSE
+#define HAL_USE_SERIAL                      TRUE
 #endif
 
 /**
@@ -153,10 +153,24 @@
 #endif
 
 /**
+ * @brief   Enables the SIO subsystem.
+ */
+#if !defined(HAL_USE_SIO) || defined(__DOXYGEN__)
+#define HAL_USE_SIO                         FALSE
+#endif
+
+/**
  * @brief   Enables the SPI subsystem.
  */
 #if !defined(HAL_USE_SPI) || defined(__DOXYGEN__)
 #define HAL_USE_SPI                         FALSE
+#endif
+
+/**
+ * @brief   Enables the TRNG subsystem.
+ */
+#if !defined(HAL_USE_TRNG) || defined(__DOXYGEN__)
+#define HAL_USE_TRNG                        FALSE
 #endif
 
 /**
@@ -180,8 +194,11 @@
 #define HAL_USE_WDG                         FALSE
 #endif
 
-#if !defined(HAL_USE_WS281X) || defined(__DOXYGEN__)
-#define HAL_USE_WS281X                 TRUE
+/**
+ * @brief   Enables the WSPI subsystem.
+ */
+#if !defined(HAL_USE_WSPI) || defined(__DOXYGEN__)
+#define HAL_USE_WSPI                        FALSE
 #endif
 
 /*===========================================================================*/
@@ -213,7 +230,7 @@
  * @note    Disabling this option saves both code and data space.
  */
 #if !defined(ADC_USE_WAIT) || defined(__DOXYGEN__)
-#define ADC_USE_WAIT                        FALSE
+#define ADC_USE_WAIT                        TRUE
 #endif
 
 /**
@@ -221,7 +238,7 @@
  * @note    Disabling this option saves both code and data space.
  */
 #if !defined(ADC_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
-#define ADC_USE_MUTUAL_EXCLUSION            FALSE
+#define ADC_USE_MUTUAL_EXCLUSION            TRUE
 #endif
 
 /*===========================================================================*/
@@ -292,7 +309,7 @@
  * @brief   Enables the mutual exclusion APIs on the I2C bus.
  */
 #if !defined(I2C_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
-#define I2C_USE_MUTUAL_EXCLUSION            FALSE
+#define I2C_USE_MUTUAL_EXCLUSION            TRUE
 #endif
 
 /*===========================================================================*/
@@ -300,7 +317,7 @@
 /*===========================================================================*/
 
 /**
- * @brief   Enables an event sources for incoming packets.
+ * @brief   Enables the zero-copy API.
  */
 #if !defined(MAC_USE_ZERO_COPY) || defined(__DOXYGEN__)
 #define MAC_USE_ZERO_COPY                   FALSE
@@ -327,26 +344,6 @@
  */
 #if !defined(MMC_NICE_WAITING) || defined(__DOXYGEN__)
 #define MMC_NICE_WAITING                    TRUE
-#endif
-
-/*===========================================================================*/
-/* QSPI driver related settings.                                             */
-/*===========================================================================*/
-
-/**
- * @brief   Enables synchronous APIs.
- * @note    Disabling this option saves both code and data space.
- */
-#if !defined(QSPI_USE_WAIT) || defined(__DOXYGEN__)
-#define QSPI_USE_WAIT                       TRUE
-#endif
-
-/**
- * @brief   Enables the @p qspiAcquireBus() and @p qspiReleaseBus() APIs.
- * @note    Disabling this option saves both code and data space.
- */
-#if !defined(QSPI_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
-#define QSPI_USE_MUTUAL_EXCLUSION           TRUE
 #endif
 
 /*===========================================================================*/
@@ -411,7 +408,7 @@
  * @brief   Serial buffers size.
  * @details Configuration parameter, you can change the depth of the queue
  *          buffers depending on the requirements of your application.
- * @note    The default is 64 bytes for both the transmission and receive
+ * @note    The default is 16 bytes for both the transmission and receive
  *          buffers.
  */
 #if !defined(SERIAL_BUFFERS_SIZE) || defined(__DOXYGEN__)
@@ -467,7 +464,7 @@
  * @note    Disabling this option saves both code and data space.
  */
 #if !defined(SPI_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
-#define SPI_USE_MUTUAL_EXCLUSION            FALSE
+#define SPI_USE_MUTUAL_EXCLUSION            TRUE
 #endif
 
 /**
@@ -510,8 +507,28 @@
 #define USB_USE_WAIT                        FALSE
 #endif
 
+/*===========================================================================*/
+/* WSPI driver related settings.                                             */
+/*===========================================================================*/
+
+/**
+ * @brief   Enables synchronous APIs.
+ * @note    Disabling this option saves both code and data space.
+ */
+#if !defined(WSPI_USE_WAIT) || defined(__DOXYGEN__)
+#define WSPI_USE_WAIT                       TRUE
+#endif
+
+/**
+ * @brief   Enables the @p wspiAcquireBus() and @p wspiReleaseBus() APIs.
+ * @note    Disabling this option saves both code and data space.
+ */
+#if !defined(WSPI_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
+#define WSPI_USE_MUTUAL_EXCLUSION           TRUE
+#endif
+
 #include "qhalconf.h"
 
-#endif /* _HALCONF_H_ */
+#endif /* HALCONF_H */
 
 /** @} */

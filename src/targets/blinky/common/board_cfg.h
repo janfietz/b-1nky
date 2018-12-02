@@ -18,6 +18,18 @@
 #include "static_assert.h"
 #include "stm32_gpio.h"
 
+/*===========================================================================*/
+/* Driver local definitions.                                                 */
+/*===========================================================================*/
+
+/*===========================================================================*/
+/* Driver exported variables.                                                */
+/*===========================================================================*/
+
+/*===========================================================================*/
+/* Driver local variables and types.                                         */
+/*===========================================================================*/
+
 /**
  * @brief   Type of STM32 GPIO port setup.
  */
@@ -120,6 +132,10 @@ static const gpio_config_t gpio_default_config = {
 #endif
 };
 
+/*===========================================================================*/
+/* Driver local functions.                                                   */
+/*===========================================================================*/
+
 static void gpio_init(stm32_gpio_t *gpiop, const gpio_setup_t *config) {
 
   gpiop->OTYPER  = config->otyper;
@@ -135,8 +151,8 @@ static void stm32_gpio_init(void) {
 
   /* Enabling GPIO-related clocks, the mask comes from the
      registry header file.*/
-  //rccResetAHB1(STM32_GPIO_EN_MASK);
-  //rccEnableAHB1(STM32_GPIO_EN_MASK, true);
+  rccResetAHB(STM32_GPIO_EN_MASK);
+  rccEnableAHB(STM32_GPIO_EN_MASK, true);
 
   /* Initializing all the defined GPIO ports.*/
 #if STM32_HAS_GPIOA
@@ -173,6 +189,14 @@ static void stm32_gpio_init(void) {
   gpio_init(GPIOK, &gpio_default_config.PKData);
 #endif
 }
+
+/*===========================================================================*/
+/* Driver interrupt handlers.                                                */
+/*===========================================================================*/
+
+/*===========================================================================*/
+/* Driver exported functions.                                                */
+/*===========================================================================*/
 
 /* Watchdog */
 #if HAL_USE_WDG
@@ -216,24 +240,24 @@ NVMPartitionDriver nvm_part_internal_flash_bl;
 static const NVMPartitionConfig nvm_part_internal_flash_bl_cfg =
 {
     .nvmp = (BaseNVMDevice*)&FLASHD,
-    .sector_offset = (BL_ORIGIN - EF_ORIGIN) / 16 / 1024,
-    .sector_num = BL_SIZE / 16 / 1024,
+    .sector_offset = (BL_ORIGIN - EF_ORIGIN) / 4 / 1024,
+    .sector_num = BL_SIZE / 4 / 1024,
 };
 
 NVMPartitionDriver nvm_part_internal_flash_ee;
 static const NVMPartitionConfig nvm_part_internal_flash_ee_cfg =
 {
     .nvmp = (BaseNVMDevice*)&FLASHD,
-    .sector_offset = (EE_ORIGIN - EF_ORIGIN) / 16 / 1024,
-    .sector_num = EE_SIZE / 16 / 1024,
+    .sector_offset = (EE_ORIGIN - EF_ORIGIN) / 4 / 1024,
+    .sector_num = EE_SIZE / 4 / 1024,
 };
 
 NVMPartitionDriver nvm_part_internal_flash_fw;
 static const NVMPartitionConfig nvm_part_internal_flash_fw_cfg =
 {
     .nvmp = (BaseNVMDevice*)&FLASHD,
-    .sector_offset = (FW_ORIGIN - EF_ORIGIN) / 16 / 1024,
-    .sector_num = FW_SIZE / 16 / 1024,
+    .sector_offset = (FW_ORIGIN - EF_ORIGIN) / 4 / 1024,
+    .sector_num = FW_SIZE / 4 / 1024,
 };
 
 #if HAL_USE_NVM_FEE
