@@ -99,13 +99,12 @@ void ModuleEffects::ThreadMain() {
 }
 
 void ModuleEffects::DrawEffects(systime_t current) {
-    int i;
     memset(display.pixels, 0, sizeof(struct Color) * LEDCOUNT);
 
     EffectUpdate(effCurrent, 0, 0, current, &display);
 
 #if HAL_USE_WS281X
-    for (i = 0; i < LEDCOUNT; i++) {
+    for (int i = 0; i < LEDCOUNT; i++) {
         const Color* color = &display.pixels[i];
         ws281xSetColor(&ws281x, i, color->R, color->G, color->B);
     }
