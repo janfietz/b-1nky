@@ -149,11 +149,6 @@ void boardStart(void)
      */
 #if defined(NDEBUG)
 #if HAL_USE_FLASH
-    /* Enable brown out detection.
-     * note: the discoveryf407 board provides 3V so
-     * we can only use LEVEL 2 here */
-    flash_lld_ob_bor(&FLASHD, OB_BOR_LEVEL_2);
-
     /* Set user option byte. */
     flash_lld_ob_user(&FLASHD,
             OB_USER_no_WDG_HW |
