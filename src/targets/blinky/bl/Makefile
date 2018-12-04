@@ -57,12 +57,8 @@ EXTRAINCDIRS += ../common
 # -U options for C here.
 ifdef NDEBUG
     CFLAGS += -DNDEBUG
-    CFLAGS += -DCORTEX_USE_FPU=TRUE
     CFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    CFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
-CFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
 
 # Place project-specific -D (define) and/or
 # -U options for CPP here.
@@ -70,16 +66,12 @@ ifdef NDEBUG
     CPPFLAGS += -DNDEBUG
     CPPFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
 endif
-CPPFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
 ifdef NDEBUG
     ASFLAGS += -DNDEBUG
-    ASFLAGS += -DCORTEX_USE_FPU=TRUE
     ASFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
-else
-    ASFLAGS += -DCORTEX_USE_FPU=FALSE
 endif
 ASFLAGS += -D__ASSEMBLY__
 
@@ -99,9 +91,6 @@ CFLAGS += -fno-builtin-printf -nodefaultlibs
 CFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
 CFLAGS += -std=gnu99
 CFLAGS += -mcpu=cortex-m0
-ifdef NDEBUG
-    CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
@@ -114,16 +103,10 @@ CPPFLAGS += -fno-builtin-printf -nodefaultlibs -fno-rtti
 CPPFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
 CPPFLAGS += -std=c++11
 CPPFLAGS += -mcpu=cortex-m0
-ifdef NDEBUG
-    CPPFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
 CPPFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Assembler flags
 ASFLAGS += -mcpu=cortex-m0
-ifdef NDEBUG
-    ASFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-endif
 ASFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 ASFLAGS += -x assembler-with-cpp
 

@@ -96,9 +96,6 @@ void boardInit(void)
     nvm_memory_bl_bin_cfg.sector_num = bl_bin_size;
     nvmmemoryObjectInit(&nvm_memory_bl_bin);
 #endif /* defined(BL_BIN) */
-#if STM32_BKPRAM_ENABLE
-    nvmmemoryObjectInit(&nvm_memory_bkpsram);
-#endif /* STM32_BKPRAM_ENABLE */
 #endif /* HAL_USE_NVM_MEMORY */
 
 #if HAL_USE_WS281X
@@ -145,9 +142,6 @@ void boardStart(void)
 #if defined(BL_BIN)
     nvmmemoryStart(&nvm_memory_bl_bin, &nvm_memory_bl_bin_cfg);
 #endif /* defined(BL_BIN) */
-#if STM32_BKPRAM_ENABLE
-    nvmmemoryStart(&nvm_memory_bkpsram, &nvm_memory_bkpsram_cfg);
-#endif /* STM32_BKPRAM_ENABLE */
 #endif /* HAL_USE_NVM_MEMORY */
 }
 
@@ -159,10 +153,6 @@ void boardStop(void)
 {
     /* nvm memory drivers */
 #if HAL_USE_NVM_MEMORY
-#if STM32_BKPRAM_ENABLE
-    nvmmemorySync(&nvm_memory_bkpsram);
-    nvmmemoryStop(&nvm_memory_bkpsram);
-#endif /* STM32_BKPRAM_ENABLE */
 #if defined(BL_BIN)
     nvmmemorySync(&nvm_memory_bl_bin);
     nvmmemoryStop(&nvm_memory_bl_bin);
