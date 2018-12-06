@@ -89,7 +89,7 @@ void ModuleEffects::ThreadMain() {
             EffectReset(effCurrent, 0, 0, current);
 
             // start timer
-            chVTSet(&effTimer, TIME_MS2I(30), ModuleEffects::TimerCallback,
+            chVTSet(&effTimer, TIME_S2I(30), ModuleEffects::TimerCallback,
                 reinterpret_cast<void*>(this));
         }
 
