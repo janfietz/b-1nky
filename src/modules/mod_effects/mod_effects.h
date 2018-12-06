@@ -23,6 +23,8 @@
 #include "effect_wandering.h"
 #include "effect_simplecolor.h"
 
+#include <array>
+
 
 
 /*===========================================================================*/
@@ -57,18 +59,18 @@ namespace blinky
 class ModuleEffects : public qos::ThreadedModule<MOD_EFFECTS_THREADSIZE>
 {
 public:
-    ModuleEffects();
-    ~ModuleEffects();
+    ModuleEffects() = default;
+    ~ModuleEffects() = default;
 
-    virtual void Init();
-    virtual void Start();
-    virtual void Shutdown();
+    void Init() override;
+    void Start() override;
+    void Shutdown() override;
 
 protected:
-    typedef qos::ThreadedModule<MOD_EFFECTS_THREADSIZE> BaseClass;
+    using  BaseClass = qos::ThreadedModule<MOD_EFFECTS_THREADSIZE>;
 
-    virtual void ThreadMain();
-    virtual tprio_t GetThreadPrio() const {return MOD_EFFECTS_THREADPRIO;}
+    void ThreadMain() override;
+    tprio_t GetThreadPrio() const override {return MOD_EFFECTS_THREADPRIO;}
 
 private:
     void DrawEffects(systime_t current);
@@ -76,13 +78,7 @@ private:
 
     bool switchEffect = false;
 
-    Color displayPixel[LEDCOUNT];
-    DisplayBuffer display =
-    {
-        .width = DISPLAY_WIDTH,
-        .height = DISPLAY_HEIGHT,
-        .pixels = displayPixel,
-    };
+    std::array<Color, LEDCOUNT> displayPixel;
 
     /*Effects*/
     EffectRandomPixelsCfg effRandomCfg = {

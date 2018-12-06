@@ -16,6 +16,7 @@
 
 #include "qhal.h"
 
+#include <algorithm>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -29,16 +30,6 @@ ModuleEffects ModuleEffectsSingelton::instance = blinky::ModuleEffects();
 /**
  * @brief
  */
-
-ModuleEffects::ModuleEffects()
-{
-
-}
-
-ModuleEffects::~ModuleEffects()
-{
-
-}
 
 void ModuleEffects::Init()
 {
@@ -99,14 +90,23 @@ void ModuleEffects::ThreadMain() {
 }
 
 void ModuleEffects::DrawEffects(systime_t current) {
-    memset(display.pixels, 0, sizeof(struct Color) * LEDCOUNT);
+    
+    std::for_each(begin(displayPixel), end(displayPixel), [](auto& color) {color = {0,0,0};});
+
+    DisplayBuffer display =
+    {
+        .width = DISPLAY_WIDTH,
+        .height = DISPLAY_HEIGHT,
+        .pixels = displayPixel.data(),
+    };
 
     EffectUpdate(effCurrent, 0, 0, current, &display);
 
+    
 #if HAL_USE_WS281X
-    for (int i = 0; i < LEDCOUNT; i++) {
-        const Color* color = &display.pixels[i];
-        ws281xSetColor(&ws281x, i, color->R, color->G, color->B);
+    std::int32_t idx{0};
+    for (auto const& pixel:  displayPixel) {
+        ws281xSetColor(&ws281x, idx++, pixel.R, pixel.G, pixel.B);
     }
 
     ws281xUpdate(&ws281x);
