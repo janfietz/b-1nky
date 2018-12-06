@@ -105,7 +105,7 @@ CPPFLAGS += -Wno-unused-but-set-variable
 CPPFLAGS += -ffunction-sections -fdata-sections -fno-common
 CPPFLAGS += -fno-builtin-printf -nodefaultlibs -fno-rtti
 CPPFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
-CPPFLAGS += -std=c++11
+CPPFLAGS += -std=c++14
 CPPFLAGS += -mcpu=cortex-m0
 CPPFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
