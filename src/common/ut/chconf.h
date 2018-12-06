@@ -1,4 +1,6 @@
 /*
+    ChibiOS - Copyright (C) 2006..2017 Giovanni Di Sirio
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -23,10 +25,11 @@
  * @{
  */
 
-#ifndef _CHCONF_H_
-#define _CHCONF_H_
+#ifndef CHCONF_H
+#define CHCONF_H
 
 #define _CHIBIOS_RT_CONF_
+#define _CHIBIOS_RT_CONF_VER_5_0_
 
 /*===========================================================================*/
 /**
@@ -47,6 +50,18 @@
  *          setting also defines the system tick time unit.
  */
 #define CH_CFG_ST_FREQUENCY                 1000
+
+/**
+ * @brief   Time intervals data size.
+ * @note    Allowed values are 16, 32 or 64 bits.
+ */
+#define CH_CFG_INTERVALS_SIZE               32
+
+/**
+ * @brief   Time types data size.
+ * @note    Allowed values are 16 or 32 bits.
+ */
+#define CH_CFG_TIME_TYPES_SIZE              32
 
 /**
  * @brief   Time delta constant for the tick-less mode.
@@ -178,7 +193,7 @@
  *          requirements.
  * @note    Requires @p CH_CFG_USE_SEMAPHORES.
  */
-#define CH_CFG_USE_SEMAPHORES_PRIORITY      TRUE
+#define CH_CFG_USE_SEMAPHORES_PRIORITY      FALSE
 
 /**
  * @brief   Mutexes APIs.
@@ -196,7 +211,7 @@
  * @note    The default is @p FALSE.
  * @note    Requires @p CH_CFG_USE_MUTEXES.
  */
-#define CH_CFG_USE_MUTEXES_RECURSIVE        TRUE
+#define CH_CFG_USE_MUTEXES_RECURSIVE        FALSE
 
 /**
  * @brief   Conditional Variables APIs.
@@ -206,7 +221,7 @@
  * @note    The default is @p TRUE.
  * @note    Requires @p CH_CFG_USE_MUTEXES.
  */
-#define CH_CFG_USE_CONDVARS                 TRUE
+#define CH_CFG_USE_CONDVARS                 FALSE
 
 /**
  * @brief   Conditional Variables APIs with timeout.
@@ -216,7 +231,7 @@
  * @note    The default is @p TRUE.
  * @note    Requires @p CH_CFG_USE_CONDVARS.
  */
-#define CH_CFG_USE_CONDVARS_TIMEOUT         TRUE
+#define CH_CFG_USE_CONDVARS_TIMEOUT         FALSE
 
 /**
  * @brief   Events Flags APIs.
@@ -243,7 +258,7 @@
  *
  * @note    The default is @p TRUE.
  */
-#define CH_CFG_USE_MESSAGES                 TRUE
+#define CH_CFG_USE_MESSAGES                 FALSE
 
 /**
  * @brief   Synchronous Messages queuing mode.
@@ -254,7 +269,7 @@
  *          requirements.
  * @note    Requires @p CH_CFG_USE_MESSAGES.
  */
-#define CH_CFG_USE_MESSAGES_PRIORITY        TRUE
+#define CH_CFG_USE_MESSAGES_PRIORITY        FALSE
 
 /**
  * @brief   Mailboxes APIs.
@@ -264,15 +279,7 @@
  * @note    The default is @p TRUE.
  * @note    Requires @p CH_CFG_USE_SEMAPHORES.
  */
-#define CH_CFG_USE_MAILBOXES                TRUE
-
-/**
- * @brief   I/O Queues APIs.
- * @details If enabled then the I/O queues APIs are included in the kernel.
- *
- * @note    The default is @p TRUE.
- */
-#define CH_CFG_USE_QUEUES                   TRUE
+#define CH_CFG_USE_MAILBOXES                FALSE
 
 /**
  * @brief   Core Memory Manager APIs.
@@ -281,7 +288,7 @@
  *
  * @note    The default is @p TRUE.
  */
-#define CH_CFG_USE_MEMCORE                  FALSE
+#define CH_CFG_USE_MEMCORE                  TRUE
 
 /**
  * @brief   Heap Allocator APIs.
@@ -293,7 +300,7 @@
  *          @p CH_CFG_USE_SEMAPHORES.
  * @note    Mutexes are recommended.
  */
-#define CH_CFG_USE_HEAP                     FALSE
+#define CH_CFG_USE_HEAP                     TRUE
 
 /**
  * @brief   Memory Pools Allocator APIs.
@@ -305,6 +312,15 @@
 #define CH_CFG_USE_MEMPOOLS                 FALSE
 
 /**
+ * @brief  Objects FIFOs APIs.
+ * @details If enabled then the objects FIFOs APIs are included
+ *          in the kernel.
+ *
+ * @note    The default is @p TRUE.
+ */
+#define CH_CFG_USE_OBJ_FIFOS                FALSE
+
+/**
  * @brief   Dynamic Threads APIs.
  * @details If enabled then the dynamic threads creation APIs are included
  *          in the kernel.
@@ -314,6 +330,56 @@
  * @note    Requires @p CH_CFG_USE_HEAP and/or @p CH_CFG_USE_MEMPOOLS.
  */
 #define CH_CFG_USE_DYNAMIC                  FALSE
+
+/** @} */
+
+/*===========================================================================*/
+/**
+ * @name Objects factory options
+ * @{
+ */
+/*===========================================================================*/
+
+/**
+ * @brief   Objects Factory APIs.
+ * @details If enabled then the objects factory APIs are included in the
+ *          kernel.
+ *
+ * @note    The default is @p FALSE.
+ */
+#define CH_CFG_USE_FACTORY                  FALSE
+
+/**
+ * @brief   Maximum length for object names.
+ * @details If the specified length is zero then the name is stored by
+ *          pointer but this could have unintended side effects.
+ */
+#define CH_CFG_FACTORY_MAX_NAMES_LENGTH     8
+
+/**
+ * @brief   Enables the registry of generic objects.
+ */
+#define CH_CFG_FACTORY_OBJECTS_REGISTRY     TRUE
+
+/**
+ * @brief   Enables factory for generic buffers.
+ */
+#define CH_CFG_FACTORY_GENERIC_BUFFERS      TRUE
+
+/**
+ * @brief   Enables factory for semaphores.
+ */
+#define CH_CFG_FACTORY_SEMAPHORES           TRUE
+
+/**
+ * @brief   Enables factory for mailboxes.
+ */
+#define CH_CFG_FACTORY_MAILBOXES            TRUE
+
+/**
+ * @brief   Enables factory for objects FIFOs.
+ */
+#define CH_CFG_FACTORY_OBJ_FIFOS            TRUE
 
 /** @} */
 
@@ -377,16 +443,22 @@
 
 /**
  * @brief   Debug option, trace buffer.
- * @details If enabled then the context switch circular trace buffer is
- *          activated.
+ * @details If enabled then the trace buffer is activated.
  *
- * @note    The default is @p FALSE.
+ * @note    The default is @p CH_DBG_TRACE_MASK_DISABLED.
  */
 #if !defined(NDEBUG)
-#define CH_DBG_ENABLE_TRACE                 TRUE
+#define CH_DBG_TRACE_MASK                   CH_DBG_TRACE_MASK_ALL
 #else
-#define CH_DBG_ENABLE_TRACE                 FALSE
+#define CH_DBG_TRACE_MASK                   CH_DBG_TRACE_MASK_DISABLED
 #endif /* defined(NDEBUG) */
+
+/**
+ * @brief   Trace buffer entries.
+ * @note    The trace buffer is only allocated if @p CH_DBG_TRACE_MASK is
+ *          different from @p CH_DBG_TRACE_MASK_DISABLED.
+ */
+#define CH_DBG_TRACE_BUFFER_SIZE            128
 
 /**
  * @brief   Debug option, stack checks.
@@ -399,9 +471,9 @@
  *          @p panic_msg variable set to @p NULL.
  */
 #if !defined(NDEBUG)
-#define CH_DBG_SYSTEM_STATE_CHECK           TRUE
+#define CH_DBG_ENABLE_STACK_CHECK           TRUE
 #else
-#define CH_DBG_SYSTEM_STATE_CHECK           FALSE
+#define CH_DBG_ENABLE_STACK_CHECK           FALSE
 #endif /* defined(NDEBUG) */
 
 /**
@@ -443,6 +515,22 @@
 /*===========================================================================*/
 
 /**
+ * @brief   System structure extension.
+ * @details User fields added to the end of the @p ch_system_t structure.
+ */
+#define CH_CFG_SYSTEM_EXTRA_FIELDS                                          \
+  /* Add threads custom fields here.*/
+
+/**
+ * @brief   System initialization hook.
+ * @details User initialization code added to the @p chSysInit() function
+ *          just before interrupts are enabled globally.
+ */
+#define CH_CFG_SYSTEM_INIT_HOOK(tp) {                                       \
+  /* Add threads initialization code here.*/                                \
+}
+
+/**
  * @brief   Threads descriptor structure extension.
  * @details User fields added to the end of the @p thread_t structure.
  */
@@ -451,9 +539,9 @@
 
 /**
  * @brief   Threads initialization hook.
- * @details User initialization code added to the @p chThdInit() API.
+ * @details User initialization code added to the @p _thread_init() function.
  *
- * @note    It is invoked from within @p chThdInit() and implicitly from all
+ * @note    It is invoked from within @p _thread_init() and implicitly from all
  *          the threads creation APIs.
  */
 #define CH_CFG_THREAD_INIT_HOOK(tp) {                                       \
@@ -551,13 +639,105 @@
 /* Port-specific settings (override port settings defaulted in chcore.h).    */
 /*===========================================================================*/
 
+/*===========================================================================*/
+/* Shell configuration                                                       */
+/*===========================================================================*/
+
+/**
+ * @brief   Shell maximum input line length.
+ */
+#if !defined(SHELL_MAX_LINE_LENGTH) || defined(__DOXYGEN__)
+#define SHELL_MAX_LINE_LENGTH               64
+#endif
+
 /**
  * @brief   Shell maximum arguments per command.
  */
 #if !defined(SHELL_MAX_ARGUMENTS) || defined(__DOXYGEN__)
-#define SHELL_MAX_ARGUMENTS         6
+#define SHELL_MAX_ARGUMENTS                 4
 #endif
 
-#endif  /* _CHCONF_H_ */
+/**
+ * @brief   Shell maximum command history.
+ */
+#if !defined(SHELL_MAX_HIST_BUFF) || defined(__DOXYGEN__)
+#define SHELL_MAX_HIST_BUFF                 8 * SHELL_MAX_LINE_LENGTH
+#endif
+
+/**
+ * @brief   Enable shell command history
+ */
+#if !defined(SHELL_USE_HISTORY) || defined(__DOXYGEN__)
+#define SHELL_USE_HISTORY                   FALSE
+#endif
+
+/**
+ * @brief   Enable shell command completion
+ */
+#if !defined(SHELL_USE_COMPLETION) || defined(__DOXYGEN__)
+#define SHELL_USE_COMPLETION                FALSE
+#endif
+
+/**
+ * @brief   Shell Maximum Completions (Set to max commands with common prefix)
+ */
+#if !defined(SHELL_MAX_COMPLETIONS) || defined(__DOXYGEN__)
+#define SHELL_MAX_COMPLETIONS               8
+#endif
+
+/**
+ * @brief   Enable shell escape sequence processing
+ */
+#if !defined(SHELL_USE_ESC_SEQ) || defined(__DOXYGEN__)
+#define SHELL_USE_ESC_SEQ                   FALSE
+#endif
+
+/**
+ * @brief   Prompt string
+ */
+#if !defined(SHELL_PROMPT_STR) || defined(__DOXYGEN__)
+#define SHELL_PROMPT_STR                    "ch> "
+#endif
+
+/**
+ * @brief   Newline string
+ */
+#if !defined(SHELL_NEWLINE_STR) || defined(__DOXYGEN__)
+#define SHELL_NEWLINE_STR                   "\r\n"
+#endif
+
+#if !defined(SHELL_CMD_EXIT_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_EXIT_ENABLED              TRUE
+#endif
+
+#if !defined(SHELL_CMD_INFO_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_INFO_ENABLED              TRUE
+#endif
+
+#if !defined(SHELL_CMD_ECHO_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_ECHO_ENABLED              TRUE
+#endif
+
+#if !defined(SHELL_CMD_SYSTIME_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_SYSTIME_ENABLED           TRUE
+#endif
+
+#if !defined(SHELL_CMD_MEM_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_MEM_ENABLED               TRUE
+#endif
+
+#if !defined(SHELL_CMD_THREADS_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_THREADS_ENABLED           TRUE
+#endif
+
+#if !defined(SHELL_CMD_TEST_ENABLED) || defined(__DOXYGEN__)
+#define SHELL_CMD_TEST_ENABLED              FALSE
+#endif
+
+#if !defined(SHELL_CMD_TEST_WA_SIZE) || defined(__DOXYGEN__)
+#define SHELL_CMD_TEST_WA_SIZE              THD_WORKING_AREA_SIZE(256)
+#endif
+
+#endif  /* CHCONF_H */
 
 /** @} */

@@ -14,8 +14,11 @@ include $(ROOT_DIR)/submodules/qos/various/cpp_wrappers/qoscpp.mk
 # Chibios
 include $(ROOT_DIR)/submodules/chibios/os/hal/osal/rt/osal.mk
 include $(ROOT_DIR)/submodules/chibios/os/rt/rt.mk
-include $(ROOT_DIR)/submodules/chibios/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
+include $(ROOT_DIR)/submodules/chibios/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 include $(ROOT_DIR)/submodules/chibios/os/various/cpp_wrappers/chcpp.mk
+
+# WS281X
+include $(ROOT_DIR)/submodules/ws281x/library.mk
 
 
 
@@ -98,14 +101,14 @@ endif
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
-CPPFLAGS += -O2 -flto -specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CPPFLAGS += -O2 -specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CPPFLAGS += -Wno-unused-but-set-variable
 CPPFLAGS += -ffunction-sections -fdata-sections -fno-common
 CPPFLAGS += -fno-builtin-printf -nodefaultlibs
 CPPFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
-CPPFLAGS += -std=c++11
+CPPFLAGS += -std=c++14
 CPPFLAGS += -mcpu=cortex-m4
 ifdef NDEBUG
     CPPFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
@@ -125,7 +128,9 @@ LDFLAGS += -nostartfiles
 LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %, -l%, $(EXTRA_LIBS))
 # this will intentionally lead to linker failure upon newlib usage of _malloc_r
-LDFLAGS += -Wl,-wrap,_malloc_r
+#LDFLAGS += -Wl,-wrap,_malloc_r
+#LDFLAGS += -Wl,-wrap,abort
+
 # tell linker to use thumb mode
 LDFLAGS += -mthumb
 # add memory section definitions in front of all linker flags

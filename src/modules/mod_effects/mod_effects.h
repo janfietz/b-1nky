@@ -10,6 +10,9 @@
 #define _MOD_EFFECTS_H_
 
 #include "target_cfg.h"
+
+#if MOD_EFFECTS
+
 #include "threadedmodule.h"
 #include "singleton.h"
 
@@ -21,7 +24,6 @@
 #include "effect_simplecolor.h"
 
 
-#if MOD_EFFECTS
 
 /*===========================================================================*/
 /* Module pre-compile time settings.                                         */
@@ -84,7 +86,7 @@ private:
 
     /*Effects*/
     EffectRandomPixelsCfg effRandomCfg = {
-            .spawninterval = MS2ST(200),
+            .spawninterval = TIME_MS2I(200),
             .color = {0xFF, 0xFF, 0xFF},
             .randomRed = true,
             .randomGreen = true,
@@ -120,7 +122,7 @@ private:
     };
 
     EffectWanderingCfg effWanderingCfg = {
-        .speed = 100,
+        .speed = TIME_MS2I(100),
         .ledbegin = 0,
         .ledend = LEDCOUNT - 1,
         .dir = 0,

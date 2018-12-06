@@ -9,12 +9,12 @@ TARGET := $(BUILD_PREFIX)_$(BOARD_NAME)
 include $(ROOT_DIR)/src/common/fw/library.mk
 # QOS
 include $(ROOT_DIR)/submodules/qos/hal/ports/STM32/STM32F0xx/library.mk
-include $(ROOT_DIR)/submodules/qos/common/ports/ARMCMx/compilers/GCC/library_stm32f0xx.mk
+include $(ROOT_DIR)/submodules/qos/common/ports/ARMCMx/compilers/GCC/library.mk
 include $(ROOT_DIR)/submodules/qos/various/cpp_wrappers/qoscpp.mk
 # Chibios
 include $(ROOT_DIR)/submodules/chibios/os/hal/osal/rt/osal.mk
 include $(ROOT_DIR)/submodules/chibios/os/rt/rt.mk
-include $(ROOT_DIR)/submodules/chibios/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v6m.mk
+include $(ROOT_DIR)/submodules/chibios/os/common/ports/ARMCMx/compilers/GCC/mk/port_v6m.mk
 include $(ROOT_DIR)/submodules/chibios/os/various/cpp_wrappers/chcpp.mk
 # Format
 include $(ROOT_DIR)/submodules/format/library.mk
@@ -53,13 +53,14 @@ ASRC +=
 EXTRAINCDIRS += .
 EXTRAINCDIRS += ../common
 
-# Place project-specific -D (define) and/or
+# Place project-specific -D (define) and/or 
 # -U options for C here.
 ifdef NDEBUG
     CFLAGS += -DNDEBUG
     CFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
 endif
-CFLAGS += -DCORTEX_VTOR_INIT=$$(($(FW_ORIGIN) - $(EF_ORIGIN)))
+CFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+CFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
 
 # Place project-specific -D (define) and/or
 # -U options for CPP here.
@@ -67,7 +68,8 @@ ifdef NDEBUG
     CPPFLAGS += -DNDEBUG
     CPPFLAGS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
 endif
-CPPFLAGS += -DCORTEX_VTOR_INIT=$$(($(BL_ORIGIN) - $(EF_ORIGIN)))
+CPPFLAGS += -DBL_BIN=$(OUTDIR)/../bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+CPPFLAGS += -DBG_BIN=$(OUTDIR)/../bg_$(BOARD_NAME)/bg_$(BOARD_NAME).bin
 
 # Place project-specific -D and/or -U options for
 # Assembler with preprocessor here.
@@ -84,7 +86,7 @@ EXTRA_LIBS += c
 EXTRA_LIBS += m
 
 # Compiler flags
-CFLAGS += -O2 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CFLAGS += -O2 -flto --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wimplicit -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CFLAGS += -Wno-unused-but-set-variable -Wunsuffixed-float-constants -Wstrict-prototypes
@@ -96,7 +98,7 @@ CFLAGS += -mcpu=cortex-m0
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
-CPPFLAGS += -O2 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CPPFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CPPFLAGS += -Wno-unused-but-set-variable

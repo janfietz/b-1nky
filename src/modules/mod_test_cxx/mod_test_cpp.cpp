@@ -60,7 +60,7 @@ void ModTestCpp::ThreadMain()
 {
     chRegSetThreadName("mod_test_cpp");
 
-    systime_t lastSysTime = chibios_rt::System::getTimeX();
+    //systime_t lastSysTime = chibios_rt::System::getTimeX();
 
     while (chibios_rt::BaseThread::shouldTerminate() == false)
     {
@@ -68,7 +68,7 @@ void ModTestCpp::ThreadMain()
 
         ledToggle(LED_STATUS);
 
-        chThdSleepPeriod(&lastSysTime, OSAL_MS2ST(250));
+        chThdSleepMilliseconds(250);
     }
 }
 

@@ -14,11 +14,17 @@ include $(ROOT_DIR)/submodules/qos/various/cpp_wrappers/qoscpp.mk
 # Chibios
 include $(ROOT_DIR)/submodules/chibios/os/hal/osal/rt/osal.mk
 include $(ROOT_DIR)/submodules/chibios/os/rt/rt.mk
-include $(ROOT_DIR)/submodules/chibios/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
+include $(ROOT_DIR)/submodules/chibios/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 include $(ROOT_DIR)/submodules/chibios/os/various/cpp_wrappers/chcpp.mk
 # Format
 include $(ROOT_DIR)/submodules/format/library.mk
 CFLAGS += -DFORMAT_INCLUDE_FLOAT
+
+# WS281X
+include $(ROOT_DIR)/submodules/ws281x/library.mk
+
+# EFFECTS
+include $(ROOT_DIR)/submodules/tmb_effects/library.mk
 
 # List modules to include in this build here
 MODULES += $(notdir $(wildcard $(ROOT_DIR)/src/modules/*))
@@ -47,7 +53,7 @@ ASRC +=
 EXTRAINCDIRS += .
 EXTRAINCDIRS += ../common
 
-# Place project-specific -D (define) and/or
+# Place project-specific -D (define) and/or 
 # -U options for C here.
 ifdef NDEBUG
     CFLAGS += -DNDEBUG
@@ -91,7 +97,7 @@ EXTRA_LIBS += c
 EXTRA_LIBS += m
 
 # Compiler flags
-CFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CFLAGS += -O2 -flto -specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wimplicit -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CFLAGS += -Wno-unused-but-set-variable -Wunsuffixed-float-constants -Wstrict-prototypes
@@ -106,14 +112,14 @@ endif
 CFLAGS += $(patsubst %, -I%, $(EXTRAINCDIRS))
 
 # Compiler flags
-CPPFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CPPFLAGS += -O2 -specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CPPFLAGS += -Wno-unused-but-set-variable
 CPPFLAGS += -ffunction-sections -fdata-sections -fno-common
 CPPFLAGS += -fno-builtin-printf -nodefaultlibs -fno-rtti
 CPPFLAGS += -MMD -MP -MF $(OUTDIR)/$(@F).d
-CPPFLAGS += -std=c++11
+CPPFLAGS += -std=c++14
 CPPFLAGS += -mcpu=cortex-m4
 ifdef NDEBUG
     CPPFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
@@ -132,6 +138,7 @@ ASFLAGS += -x assembler-with-cpp
 LDFLAGS += -nostartfiles
 LDFLAGS += -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %, -l%, $(EXTRA_LIBS))
+
 # this will intentionally lead to linker failure upon newlib usage of _malloc_r
 #LDFLAGS += -Wl,-wrap,_malloc_r
 #LDFLAGS += -Wl,-wrap,abort

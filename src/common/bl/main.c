@@ -31,11 +31,13 @@ int main(void)
 
     boardStart();
 
-    ledOn(LED_WARNING);
-
-    chThdSleepMilliseconds(500);
-
-    ledOff(LED_WARNING);
+    ledOn(LED_STATUS);
+    chThdSleepMilliseconds(200);
+    ledOff(LED_STATUS);
+    chThdSleepMilliseconds(200);
+    ledOn(LED_STATUS);
+    chThdSleepMilliseconds(200);
+    ledOff(LED_STATUS);
 
     boardStop();
     chSysDisable();

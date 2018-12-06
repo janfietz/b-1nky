@@ -49,7 +49,7 @@ void ModuleEffects::Start() {
     BaseClass::Start();
 
     // start timer
-    chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+    chVTSet(&effTimer, TIME_MS2I(30), ModuleEffects::TimerCallback,
         reinterpret_cast<void*>(this));
 }
 
@@ -89,23 +89,22 @@ void ModuleEffects::ThreadMain() {
             EffectReset(effCurrent, 0, 0, current);
 
             // start timer
-            chVTSet(&effTimer, S2ST(30), ModuleEffects::TimerCallback,
+            chVTSet(&effTimer, TIME_S2I(30), ModuleEffects::TimerCallback,
                 reinterpret_cast<void*>(this));
         }
 
         DrawEffects(current);
-        chibios_rt::BaseThread::sleep(MS2ST(10));
+        chibios_rt::BaseThread::sleep(TIME_MS2I(10));
     }
 }
 
 void ModuleEffects::DrawEffects(systime_t current) {
-    int i;
     memset(display.pixels, 0, sizeof(struct Color) * LEDCOUNT);
 
     EffectUpdate(effCurrent, 0, 0, current, &display);
 
 #if HAL_USE_WS281X
-    for (i = 0; i < LEDCOUNT; i++) {
+    for (int i = 0; i < LEDCOUNT; i++) {
         const Color* color = &display.pixels[i];
         ws281xSetColor(&ws281x, i, color->R, color->G, color->B);
     }
