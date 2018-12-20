@@ -338,9 +338,32 @@ static const ws281xConfig ws281x_cfg =
     1,
     WS281X_800KHZ_ZERO_PWM_WIDTH,
     WS281X_800KHZ_ONE_PWM_WIDTH,
-    STM32_DMA1_STREAM3,
+    STM32_DMA1_STREAM6,
     2,
 };
 #endif /* HAL_USE_WS281X */
+
+#if HAL_USE_SPI
+static const SPIConfig spicfg = {
+  FALSE,
+  NULL,
+  GPIOA,
+  GPIOA_PIN3, //GPIOA_ACCEL_CS,
+  SPI_CR1_BR_0 | SPI_CR1_BR_1 | SPI_CR1_CPOL | SPI_CR1_CPHA,
+  0
+};
+
+#if HAL_USE_LIS3DH
+LIS3DHDriver lis3dh;
+static const lis3dhConfig lis3dh_cfg = {
+  .spip = &SPID1,
+  .spicfg = &spicfg,
+  .fullscale = LIS3DH_FS_2G,
+  .outputdatarate = LIS3DH_ODR_25HZ,
+  .antialiasing = LIS3DH_BW_800HZ,
+  .blockdataupdate = LIS3DH_BDU_CONTINUOUS
+};
+#endif  /* HAL_USE_LIS3DH */
+#endif /* HAL_USE_SPI */
 
 #endif /* BOARD_CFG_H_ */

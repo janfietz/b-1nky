@@ -18,6 +18,7 @@
 #include "qhal.h"
 
 #include "ws281x.h"
+#include "lis3dh.h"
 
 /*
  * @brief   This file is used to expose drivers to the application.
@@ -34,6 +35,10 @@ extern LedDriver led_red;
 #if HAL_USE_WS281X
 extern ws281xDriver ws281x;
 #endif /* HAL_USE_WS281X */
+
+#if HAL_USE_LIS3DH
+extern LIS3DHDriver lis3dh;
+#endif  /* HAL_USE_LIS3DH */
 
 /* Internal flash */
 #if HAL_USE_FLASH && HAL_USE_NVM_PARTITION

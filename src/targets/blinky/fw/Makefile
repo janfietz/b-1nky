@@ -26,6 +26,9 @@ include $(ROOT_DIR)/submodules/ws281x/library.mk
 # EFFECTS
 include $(ROOT_DIR)/submodules/tmb_effects/library.mk
 
+# LIS3DH
+include $(ROOT_DIR)/submodules/lis3dh/library.mk
+
 # List modules to include in this build here
 MODULES += $(notdir $(wildcard $(ROOT_DIR)/src/modules/*))
 
@@ -86,7 +89,7 @@ EXTRA_LIBS += c
 EXTRA_LIBS += m
 
 # Compiler flags
-CFLAGS += -O2 -flto --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
+CFLAGS += -O0 --specs=nano.specs -ggdb -fomit-frame-pointer -falign-functions=16 -falign-loops=16
 CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wimplicit -Wpointer-arith -Wredundant-decls -Wshadow -Wno-unused-parameter
 CFLAGS += -Wno-unused-but-set-variable -Wunsuffixed-float-constants -Wstrict-prototypes

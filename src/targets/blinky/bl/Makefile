@@ -26,6 +26,9 @@ include $(ROOT_DIR)/submodules/ws281x/library.mk
 # EFFECTS
 include $(ROOT_DIR)/submodules/tmb_effects/library.mk
 
+# LIS3DH
+include $(ROOT_DIR)/submodules/lis3dh/library.mk
+
 # List modules to include in this build here
 MODULES += $(notdir $(wildcard $(ROOT_DIR)/src/modules/*))
 

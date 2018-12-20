@@ -64,9 +64,12 @@ void boardInit(void)
      */
     qhalInit();
 
+#if HAL_USE_LIS3DH
+    lis3dhInit();
+#endif  /* HAL_USE_LIS3DH */
 
-  /* Clear TIM1 remapping bit to enable DMA request.*/
-  SYSCFG->CFGR1 &= ~SYSCFG_CFGR1_TIM1_DMA_RMP;
+  /* Set TIM1 remapping bit to enable DMA request.*/
+  SYSCFG->CFGR1 |= SYSCFG_CFGR1_TIM1_DMA_RMP;
 
     /**
      * call *ObjectInit() for all device instances which are created in here.
@@ -102,6 +105,10 @@ void boardInit(void)
     ws281xObjectInit(&ws281x);
 #endif /* HAL_USE_WS281X */
 
+#if HAL_USE_LIS3DH
+    lis3dhObjectInit(&lis3dh);
+#endif /* HAL_USE_LIS3DH */
+
 }
 
 /**
@@ -123,6 +130,10 @@ void boardStart(void)
 #if HAL_USE_WS281X
     ws281xStart(&ws281x, &ws281x_cfg);
 #endif /* HAL_USE_WS281X */
+
+#if HAL_USE_LIS3DH
+    lis3dhStart(&lis3dh, &lis3dh_cfg);
+#endif /* HAL_USE_LIS3DH */
 
     /* Internal flash */
 #if HAL_USE_FLASH
@@ -175,6 +186,10 @@ void boardStop(void)
 #endif /* HAL_USE_NVM_PARTITION */
     flashStop(&FLASHD);
 #endif /* HAL_USE_FLASH */
+
+#if HAL_USE_LIS3DH
+    lis3dhStop(&lis3dh);
+#endif /* HAL_USE_LIS3DH */
 
 #if HAL_USE_WS281X
     ws281xStop(&ws281x);
