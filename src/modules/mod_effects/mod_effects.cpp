@@ -6,7 +6,7 @@
  * @{
  */
 
-#include "mod_effects.h"
+#include "mod_effects.hpp"
 
 #if MOD_EFFECTS
 

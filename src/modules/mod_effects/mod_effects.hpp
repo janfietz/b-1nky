@@ -31,7 +31,7 @@
 /* Module pre-compile time settings.                                         */
 /*===========================================================================*/
 #ifndef MOD_EFFECTS_THREADSIZE
-#define MOD_EFFECTS_THREADSIZE 256
+#define MOD_EFFECTS_THREADSIZE 512
 #endif
 
 #ifndef MOD_EFFECTS_THREADPRIO
