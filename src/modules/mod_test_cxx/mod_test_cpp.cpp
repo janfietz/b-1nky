@@ -12,7 +12,7 @@
     limitations under the License.
 */
 
-#include "mod_test_cpp.h"
+#include "mod_test_cpp.hpp"
 
 #if MOD_TEST_CPP
 
