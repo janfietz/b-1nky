@@ -15,6 +15,10 @@
 
 #include "qhal.h"
 
+#include "lis3dh.h"
+
+#include <array>
+
 namespace blinky
 {
 template <>
@@ -45,6 +49,12 @@ void ModuleSensors::ThreadMain()
     while (!chibios_rt::BaseThread::shouldTerminate())
     {
         watchdog_reload(WATCHDOG_MOD_SENSORS);
+
+        std::array<int32_t, LIS3DH_NUMBER_OF_AXES> accelData;;
+        lis3dhReadRaw(&lis3dh, accelData.data());
+
+        int16_t temp = 0;
+        lis3dhReadTemp(&lis3dh, &temp);
 
         chibios_rt::BaseThread::sleep(TIME_MS2I(25));
     }
