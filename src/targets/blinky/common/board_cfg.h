@@ -361,7 +361,8 @@ static const lis3dhConfig lis3dh_cfg = {
   .fullscale = LIS3DH_FS_2G,
   .outputdatarate = LIS3DH_ODR_25HZ,
   .antialiasing = LIS3DH_BW_800HZ,
-  .blockdataupdate = LIS3DH_BDU_CONTINUOUS
+  .blockdataupdate = LIS3DH_BDU_BLOCKED,
+  .temp_cfg = LIS3DH_TEMP_CFG_TEMP_EN | LIS3DH_TEMP_CFG_ADC_EN
 };
 #endif  /* HAL_USE_LIS3DH */
 #endif /* HAL_USE_SPI */
