@@ -68,6 +68,10 @@ void boardInit(void)
     lis3dhInit();
 #endif  /* HAL_USE_LIS3DH */
 
+#if HAL_USE_MP34DT05
+    mp34dt05Init();
+#endif  /* HAL_USE_MP34DT05 */
+
   /* Set TIM1 remapping bit to enable DMA request.*/
   SYSCFG->CFGR1 |= SYSCFG_CFGR1_TIM1_DMA_RMP;
 
@@ -109,6 +113,10 @@ void boardInit(void)
     lis3dhObjectInit(&lis3dh);
 #endif /* HAL_USE_LIS3DH */
 
+#if HAL_USE_MP34DT05
+    mp34dt05ObjectInit(&mp34dt05);
+#endif  /* HAL_USE_MP34DT05 */
+
 }
 
 /**
@@ -134,6 +142,10 @@ void boardStart(void)
 #if HAL_USE_LIS3DH
     lis3dhStart(&lis3dh, &lis3dh_cfg);
 #endif /* HAL_USE_LIS3DH */
+
+#if HAL_USE_MP34DT05
+    mp34dt05Start(&mp34dt05, &mp34dt05_cfg);
+#endif  /* HAL_USE_MP34DT05 */
 
     /* Internal flash */
 #if HAL_USE_FLASH
@@ -186,6 +198,10 @@ void boardStop(void)
 #endif /* HAL_USE_NVM_PARTITION */
     flashStop(&FLASHD);
 #endif /* HAL_USE_FLASH */
+
+#if HAL_USE_MP34DT05
+    mp34dt05Stop(&mp34dt05);
+#endif  /* HAL_USE_MP34DT05 */
 
 #if HAL_USE_LIS3DH
     lis3dhStop(&lis3dh);

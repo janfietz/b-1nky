@@ -188,6 +188,16 @@
 #define HAL_USE_LIS3DH                 TRUE
 #endif
 
+/**
+ * @brief   Enables the I2S subsystem.
+ */
+#if !defined(HAL_USE_I2S) || defined(__DOXYGEN__)
+#define HAL_USE_I2S                         TRUE
+#endif
+
+#if !defined(HAL_USE_MP34DT05) || defined(__DOXYGEN__)
+#define HAL_USE_MP34DT05                 TRUE
+#endif
 
 /*===========================================================================*/
 /* PAL driver related settings.                                              */

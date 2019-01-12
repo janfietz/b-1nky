@@ -367,4 +367,19 @@ static const lis3dhConfig lis3dh_cfg = {
 #endif  /* HAL_USE_LIS3DH */
 #endif /* HAL_USE_SPI */
 
+#if HAL_USE_I2S
+#if HAL_USE_MP34DT05
+MP34DT05Driver mp34dt05;
+static const mp34dt05Config mp34dt05_cfg = {
+  .i2sp = &I2SD2,
+  .i2spr = 10 << SPI_I2SPR_I2SDIV_Pos, // 2
+  .end_cb = mp34dt05ReceiveEnd
+};
+#endif  /* HAL_USE_I2S */
+
+#endif /* HAL_USE_SPI */
+
+
+
+
 #endif /* BOARD_CFG_H_ */

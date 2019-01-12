@@ -19,6 +19,7 @@
 
 #include "ws281x.h"
 #include "lis3dh.h"
+#include "mp34dt05.h"
 
 /*
  * @brief   This file is used to expose drivers to the application.
@@ -39,6 +40,11 @@ extern ws281xDriver ws281x;
 #if HAL_USE_LIS3DH
 extern LIS3DHDriver lis3dh;
 #endif  /* HAL_USE_LIS3DH */
+
+#if HAL_USE_MP34DT05
+extern MP34DT05Driver mp34dt05;
+extern void mp34dt05ReceiveEnd(I2SDriver *i2sp, size_t offset, size_t n);
+#endif  /* HAL_USE_MP34DT05 */
 
 /* Internal flash */
 #if HAL_USE_FLASH && HAL_USE_NVM_PARTITION
