@@ -16,6 +16,7 @@
 #include "qhal.h"
 
 #include "lis3dh.h"
+#include "mp34dt05.h"
 
 #include <array>
 
@@ -23,6 +24,14 @@ namespace blinky
 {
 template <>
 ModuleSensors ModuleSensorsSingelton::instance = blinky::ModuleSensors();
+
+extern "C"
+{
+void mp34dt05ReceiveEnd(I2SDriver *i2sp, size_t offset, size_t n)
+{
+// do decimation here
+}
+}
 
 /**
  * @brief
@@ -35,17 +44,20 @@ void ModuleSensors::Init()
 
 void ModuleSensors::Start()
 {
+    mp34dt05StartExchange(&mp34dt05);
     Super::Start();
 }
 
 void ModuleSensors::Shutdown()
 {
     Super::Shutdown();
+    mp34dt05StopExchange(&mp34dt05);
 }
 
 void ModuleSensors::ThreadMain()
 {
     chRegSetThreadName("sensors");
+    
     while (!chibios_rt::BaseThread::shouldTerminate())
     {
         watchdog_reload(WATCHDOG_MOD_SENSORS);
