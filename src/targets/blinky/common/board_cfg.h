@@ -348,7 +348,7 @@ static const SPIConfig spicfg = {
   FALSE,
   NULL,
   GPIOA,
-  GPIOA_PIN3, //GPIOA_ACCEL_CS,
+  GPIOA_ACCEL_CS,
   SPI_CR1_BR_0 | SPI_CR1_BR_1 | SPI_CR1_CPOL | SPI_CR1_CPHA,
   0
 };
