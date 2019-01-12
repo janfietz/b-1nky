@@ -156,7 +156,7 @@
  * @brief   Enables the SPI subsystem.
  */
 #if !defined(HAL_USE_SPI) || defined(__DOXYGEN__)
-#define HAL_USE_SPI                         FALSE
+#define HAL_USE_SPI                         TRUE
 #endif
 
 /**
@@ -183,6 +183,11 @@
 #if !defined(HAL_USE_WS281X) || defined(__DOXYGEN__)
 #define HAL_USE_WS281X                 TRUE
 #endif
+
+#if !defined(HAL_USE_LIS3DH) || defined(__DOXYGEN__)
+#define HAL_USE_LIS3DH                 TRUE
+#endif
+
 
 /*===========================================================================*/
 /* PAL driver related settings.                                              */

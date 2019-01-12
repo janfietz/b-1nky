@@ -26,6 +26,7 @@
 /* List modules here. */
 #define MOD_TEST_CPP                TRUE
 #define MOD_EFFECTS                 TRUE
+#define MOD_SENSORS                 TRUE
 
 #define DISPLAY_WIDTH 5
 #define DISPLAY_HEIGHT 1

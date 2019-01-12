@@ -45,8 +45,9 @@
 /* External declarations                                                     */
 /*===========================================================================*/
 
-class ModTestCpp : public qos::ThreadedModule<32>
+class ModTestCpp : public qos::ThreadedModule<64>
 {
+    using Super =  qos::ThreadedModule<64>;
 public:
     ModTestCpp();
     ~ModTestCpp();
@@ -61,12 +62,10 @@ public:
     }
 
 protected:
-    virtual tprio_t GetThreadPrio() const;
-    virtual void ThreadMain();
+    tprio_t GetThreadPrio() const override;
+    void ThreadMain() override;
 
 private:
-    typedef qos::ThreadedModule<32> Super;
-
     static ModTestCpp modInstance;
 };
 #endif /* MOD_TEST_CPP */

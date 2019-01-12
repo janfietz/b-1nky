@@ -54,8 +54,8 @@
 #define GPIOA_PIN0                  0U
 #define GPIOA_PIN1                  1U
 #define GPIOA_PIN2                  2U
-#define GPIOA_ACCEL_CS              3U
-#define GPIOA_PIN4                  4U
+#define GPIOA_PIN3                  3U
+#define GPIOA_ACCEL_CS              4U
 #define GPIOA_ACCEL_CLK             5U
 #define GPIOA_ACCEL_MISO            6U
 #define GPIOA_ACCEL_MOSI            7U
@@ -292,8 +292,8 @@
 #define VAL_GPIOA_MODER             (PIN_MODE_INPUT(GPIOA_PIN0) |         \
                                      PIN_MODE_INPUT(GPIOA_PIN1) |           \
                                      PIN_MODE_INPUT(GPIOA_PIN2) |           \
-                                     PIN_MODE_INPUT(GPIOA_ACCEL_CS) |           \
-                                     PIN_MODE_ALTERNATE(GPIOA_PIN4) |       \
+                                     PIN_MODE_OUTPUT(GPIOA_PIN3) |           \
+                                     PIN_MODE_OUTPUT(GPIOA_ACCEL_CS) |       \
                                      PIN_MODE_ALTERNATE(GPIOA_ACCEL_CLK) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_ACCEL_MISO) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_ACCEL_MOSI) |        \
@@ -308,8 +308,8 @@
 #define VAL_GPIOA_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOA_PIN0) |     \
                                      PIN_OTYPE_PUSHPULL(GPIOA_PIN1) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOA_PIN2) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_PIN3) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOA_ACCEL_CS) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_PIN4) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOA_ACCEL_CLK) |        \
                                      PIN_OTYPE_PUSHPULL(GPIOA_ACCEL_MISO) |        \
                                      PIN_OTYPE_PUSHPULL(GPIOA_ACCEL_MOSI) |        \
@@ -324,11 +324,11 @@
 #define VAL_GPIOA_OSPEEDR           (PIN_OSPEED_HIGH(GPIOA_PIN0) |        \
                                      PIN_OSPEED_HIGH(GPIOA_PIN1) |          \
                                      PIN_OSPEED_HIGH(GPIOA_PIN2) |          \
+                                     PIN_OSPEED_HIGH(GPIOA_PIN3) |          \
                                      PIN_OSPEED_HIGH(GPIOA_ACCEL_CS) |          \
-                                     PIN_OSPEED_HIGH(GPIOA_PIN4) |          \
-                                     PIN_OSPEED_MEDIUM(GPIOA_ACCEL_CLK) |         \
-                                     PIN_OSPEED_MEDIUM(GPIOA_ACCEL_MISO) |         \
-                                     PIN_OSPEED_MEDIUM(GPIOA_ACCEL_MOSI) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_ACCEL_CLK) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_ACCEL_MISO) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_ACCEL_MOSI) |         \
                                      PIN_OSPEED_HIGH(GPIOA_PIN8) |          \
                                      PIN_OSPEED_VERYLOW(GPIOA_LED_DATA) |       \
                                      PIN_OSPEED_HIGH(GPIOA_LED1) |     \
@@ -340,8 +340,8 @@
 #define VAL_GPIOA_PUPDR             (PIN_PUPDR_FLOATING(GPIOA_PIN0) |     \
                                      PIN_PUPDR_PULLUP(GPIOA_PIN1) |         \
                                      PIN_PUPDR_PULLUP(GPIOA_PIN2) |         \
-                                     PIN_PUPDR_PULLUP(GPIOA_ACCEL_CS) |         \
-                                     PIN_PUPDR_FLOATING(GPIOA_PIN4) |       \
+                                     PIN_PUPDR_FLOATING(GPIOA_PIN3) |         \
+                                     PIN_PUPDR_PULLUP(GPIOA_ACCEL_CS) |       \
                                      PIN_PUPDR_FLOATING(GPIOA_ACCEL_CLK) |        \
                                      PIN_PUPDR_FLOATING(GPIOA_ACCEL_MISO) |        \
                                      PIN_PUPDR_FLOATING(GPIOA_ACCEL_MOSI) |        \
@@ -356,9 +356,9 @@
 #define VAL_GPIOA_ODR               (PIN_ODR_HIGH(GPIOA_PIN0) |           \
                                      PIN_ODR_HIGH(GPIOA_PIN1) |             \
                                      PIN_ODR_HIGH(GPIOA_PIN2) |             \
+                                     PIN_ODR_HIGH(GPIOA_PIN3) |             \
                                      PIN_ODR_HIGH(GPIOA_ACCEL_CS) |             \
-                                     PIN_ODR_HIGH(GPIOA_PIN4) |             \
-                                     PIN_ODR_HIGH(GPIOA_ACCEL_CLK) |              \
+                                     PIN_ODR_LOW(GPIOA_ACCEL_CLK) |              \
                                      PIN_ODR_HIGH(GPIOA_ACCEL_MISO) |              \
                                      PIN_ODR_HIGH(GPIOA_ACCEL_MOSI) |              \
                                      PIN_ODR_HIGH(GPIOA_PIN8) |             \
@@ -372,11 +372,11 @@
 #define VAL_GPIOA_AFRL              (PIN_AFIO_AF(GPIOA_PIN0, 0U) |        \
                                      PIN_AFIO_AF(GPIOA_PIN1, 0U) |          \
                                      PIN_AFIO_AF(GPIOA_PIN2, 0U) |          \
+                                     PIN_AFIO_AF(GPIOA_PIN3, 0U) |          \
                                      PIN_AFIO_AF(GPIOA_ACCEL_CS, 0U) |          \
-                                     PIN_AFIO_AF(GPIOA_PIN4, 6U) |          \
-                                     PIN_AFIO_AF(GPIOA_ACCEL_CLK, 5U) |           \
-                                     PIN_AFIO_AF(GPIOA_ACCEL_MISO, 5U) |           \
-                                     PIN_AFIO_AF(GPIOA_ACCEL_MOSI, 5U))
+                                     PIN_AFIO_AF(GPIOA_ACCEL_CLK, 0U) |           \
+                                     PIN_AFIO_AF(GPIOA_ACCEL_MISO, 0U) |           \
+                                     PIN_AFIO_AF(GPIOA_ACCEL_MOSI, 0U))
 #define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_PIN8, 0U) |          \
                                      PIN_AFIO_AF(GPIOA_LED_DATA, 2U) |       \
                                      PIN_AFIO_AF(GPIOA_LED1, 0U) |    \
